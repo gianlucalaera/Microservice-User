@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +18,18 @@ import guru.springframework.sfgrestbrewery.repository.UserRepository;
 import guru.springframework.sfgrestbrewery.security.services.UserDetailsImpl;
 
 @Service
+@Slf4j
 public class UserService implements UserDetailsService{
 
 	@Autowired
 	private UserRepository userRepository;
+
+	public void save (User user){
+		if(getUserById(user.getId()).isPresent())
+			userRepository.save(user);
+		else
+			log.info("user not present in db");
+	}
 	
 	@Override
 	@Transactional
