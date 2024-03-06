@@ -3,6 +3,7 @@ package guru.springframework.sfgrestbrewery.controller;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -10,13 +11,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import guru.springframework.sfgrestbrewery.exception.UserNotFoundException;
 import guru.springframework.sfgrestbrewery.model.ERole;
@@ -89,4 +84,18 @@ public class UserController {
 		final List<User> users = userService.getUserByRole(role);
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
+
+	@ApiOperation(value = "updateUser")
+	@PostMapping(value = "users/user")
+	public ResponseEntity<Void> saveNewUser(@RequestBody User user){
+		log.info("saving new user in db");
+		userService.save(user);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+	}
+
+
+
+
 }
