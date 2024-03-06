@@ -25,10 +25,7 @@ public class UserService implements UserDetailsService{
 	private UserRepository userRepository;
 
 	public void save (User user){
-		if(getUserById(user.getId()).isPresent())
-			userRepository.save(user);
-		else
-			log.info("user not present in db");
+		userRepository.save(user);
 	}
 	
 	@Override
